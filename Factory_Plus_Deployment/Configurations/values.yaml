@@ -1,0 +1,24 @@
+acs:
+  baseUrl: factoryplus.amic.com
+  organisation: AMIC
+  letsEncrypt:
+    email: kani@qub.ac.uk
+identity:
+  realm: FACTORYPLUS.AMIC.COM
+
+# Enable missing components
+monitor:
+  enabled: true
+
+files:
+  enabled: true
+
+edgeHelm:
+  enabled: true
+
+# Enable TLS/SSL configuration
+acs:
+  secure: true
+  letsEncrypt:
+    enabled: true
+    email: kani@qub.ac.uk

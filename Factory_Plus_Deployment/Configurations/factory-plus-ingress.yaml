@@ -1,0 +1,80 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: factory-plus-ingress
+  namespace: factory-plus
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: factory-plus-auth@kubernetescrd
+spec:
+  tls:
+  - hosts:
+    - manager.factoryplus.amic.com
+    - visualiser.factoryplus.amic.com
+    - grafana.factoryplus.amic.com
+    - auth.factoryplus.amic.com
+    - configdb.factoryplus.amic.com
+    secretName: factory-plus-tls
+  rules:
+  - host: manager.factoryplus.amic.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: manager
+            port:
+              number: 80
+  - host: visualiser.factoryplus.amic.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: visualiser
+            port:
+              number: 80
+  - host: grafana.factoryplus.amic.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: acs-grafana
+            port:
+              number: 80
+  - host: auth.factoryplus.amic.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: auth
+            port:
+              number: 80
+  - host: configdb.factoryplus.amic.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: configdb
+            port:
+              number: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: factory-plus-auth
+  namespace: factory-plus
+spec:
+  forwardAuth:
+    address: http://auth.factoryplus.amic.com/auth
+    trustForwardHeader: true
