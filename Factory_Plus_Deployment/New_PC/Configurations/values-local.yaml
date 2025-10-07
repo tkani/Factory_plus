@@ -1,0 +1,30 @@
+# Factory+ Local Configuration Override
+# This file contains all the fixes applied to make Factory+ work locally
+# Use this with: helm upgrade acs amrc-connectivity-stack/acs -n factory-plus-new -f values-local.yaml
+
+# Manager service configuration fixes
+manager:
+  env:
+    # Fix white page issue - use localhost instead of external hostnames
+    APP_URL: http://localhost:8081
+    ASSET_URL: http://localhost:8081
+    
+    # Fix DNS resolution issues - use internal cluster DNS
+    SERVICE_SCHEME: http
+    BASE_URL: factory-plus-new.svc.cluster.local
+    
+    # Add all service URLs for proper communication
+    CONFIGDB_URL: http://configdb.factory-plus-new.svc.cluster.local
+    AUTH_URL: http://auth.factory-plus-new.svc.cluster.local
+    DIRECTORY_URL: http://directory.factory-plus-new.svc.cluster.local
+    CLUSTER_MANAGER_URL: http://cluster-manager.factory-plus-new.svc.cluster.local
+
+# Disable monitor service (was causing DNS resolution errors)
+monitor:
+  enabled: false
+
+# Ensure all services use internal cluster communication
+global:
+  # Use internal cluster DNS for all services
+  serviceScheme: http
+  baseUrl: factory-plus-new.svc.cluster.local

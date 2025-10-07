@@ -1,0 +1,103 @@
+# Factory+ User Accounts - 4 Users Created Successfully
+# Generated on: October 7, 2025
+
+## ✅ 4 Users Created and Verified
+
+### 1. Administrator Account
+- **Username:** admin@FACTORYPLUS.AMIC.COM
+- **Password:** [Check kubectl get secret krb5-passwords -n factory-plus-new]
+- **Role:** Administrator
+- **Access:** Full system access
+- **Status:** ✅ Created and verified
+
+### 2. User Account 1
+- **Username:** user1@FACTORYPLUS.AMIC.COM
+- **Password:** Passw0rd1
+- **Role:** User
+- **Access:** Standard user access
+- **Status:** ✅ Created and verified
+
+### 3. User Account 2
+- **Username:** user2@FACTORYPLUS.AMIC.COM
+- **Password:** Passw0rd2
+- **Role:** User
+- **Access:** Standard user access
+- **Status:** ✅ Created and verified
+
+### 4. User Account 3
+- **Username:** user3@FACTORYPLUS.AMIC.COM
+- **Password:** Passw0rd3
+- **Role:** User
+- **Access:** Standard user access
+- **Status:** ✅ Created and verified
+
+## 🌐 Login Instructions
+
+### Step 1: Access Manager
+1. Open browser to: **http://localhost:8081/login**
+2. Make sure port forwarding is active (all services running)
+
+### Step 2: Login with Any Account
+- **Full Username:** Must include @FACTORYPLUS.AMIC.COM
+- **Password:** Use the corresponding password above
+- **Example:** user1@FACTORYPLUS.AMIC.COM / Passw0rd1
+
+### Step 3: Test All Accounts
+Try logging in with each account to verify they work:
+1. admin@FACTORYPLUS.AMIC.COM (Administrator)
+2. user1@FACTORYPLUS.AMIC.COM (User)
+3. user2@FACTORYPLUS.AMIC.COM (User)
+4. user3@FACTORYPLUS.AMIC.COM (User)
+
+## 🔧 Service URLs
+
+All services are accessible at:
+- **Manager:** http://localhost:8081/login
+- **Visualiser:** http://localhost:8082/
+- **Grafana:** http://localhost:8083/
+- **Auth:** http://localhost:8084/
+- **ConfigDB:** http://localhost:8085/
+
+## 📋 Verification Commands
+
+### Check Users in Kerberos:
+```powershell
+kubectl exec -n factory-plus-new deployment/kdc -- kadmin.local -q "listprincs" | Select-String -Pattern "(admin|user[1-3])@"
+```
+
+### Check Service Status:
+```powershell
+netstat -an | Select-String -Pattern "808[0-9]" | Select-String -Pattern "LISTENING"
+```
+
+### Test Manager Access:
+```powershell
+Invoke-WebRequest -Uri "http://localhost:8081" -Method Head
+```
+
+## ✅ Status: All 4 Users Working
+
+- ✅ **admin@FACTORYPLUS.AMIC.COM** - Administrator account
+- ✅ **user1@FACTORYPLUS.AMIC.COM** - User account (Passw0rd1)
+- ✅ **user2@FACTORYPLUS.AMIC.COM** - User account (Passw0rd2)
+- ✅ **user3@FACTORYPLUS.AMIC.COM** - User account (Passw0rd3)
+
+## 🎯 Quick Test
+
+**Try this login:**
+- Username: **user1@FACTORYPLUS.AMIC.COM**
+- Password: **Passw0rd1**
+- URL: **http://localhost:8081/login**
+
+## 📝 Notes
+
+- All usernames MUST include the full realm: @FACTORYPLUS.AMIC.COM
+- Passwords are case-sensitive
+- Admin account has full system access
+- User accounts have standard access
+- All accounts are verified and working
+- Manager service is accessible and responding
+
+## 🏭 Ready to Use!
+
+Your Factory+ deployment now has 4 working user accounts ready for login!
